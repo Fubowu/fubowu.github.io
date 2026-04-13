@@ -1,6 +1,7 @@
 ﻿---
 layout: default
 title: 關於福伯論壇
+permalink: /about/
 ---
 <div class="post-page">
   <article class="post-article">
