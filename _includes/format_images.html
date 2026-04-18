@@ -1,0 +1,1 @@
+{%- assign _total = 0 -%}{%- for post in site.posts -%}{%- assign _total = _total | plus: post.images.size -%}{%- endfor -%}{%- if _total >= 1000 -%}{%- assign _d = _total | divided_by: 1000 -%}{%- assign _r = _total | modulo: 1000 -%}{{ _d }},{%- if _r < 100 %}0{%- endif -%}{%- if _r < 10 %}0{%- endif -%}{{ _r }}{%- else -%}{{ _total }}{%- endif -%}
