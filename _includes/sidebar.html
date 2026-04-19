@@ -44,33 +44,29 @@
     </div>
   </div>
 
-  <!-- 訂閱表單 -->
+  <!-- 留言給福伯 -->
   <div class="sidebar-block">
-    <div class="sidebar-block-title">📬 訂閱新文章通知</div>
+    <div class="sidebar-block-title">📬 留言給福伯</div>
     <div class="sidebar-block-body">
-      <p class="subscribe-desc">有新文章時，自動寄通知到您的信箱。</p>
-      <div id="mlb2-38721864" class="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-38721864">
-        <div class="row-form">
-          <form class="ml-block-form fubowu-subscribe-form"
-                action="https://assets.mailerlite.com/jsonp/2206721/forms/182400390224938726/subscribe"
-                data-code="" method="post" target="_blank">
-            <div class="subscribe-input-wrap">
-              <input type="email" name="fields[email]"
-                     placeholder="輸入 Email 地址…"
-                     autocomplete="email" required>
-              <button type="submit" class="subscribe-submit-btn">訂閱</button>
-              <button disabled style="display:none" type="button" class="subscribe-submit-btn loading">
-                <span>…</span>
-              </button>
-            </div>
-            <input type="hidden" name="ml-submit" value="1">
-            <input type="hidden" name="anticsrf" value="true">
-          </form>
-        </div>
-        <div class="row-success" style="display:none">
-          <p class="subscribe-success">✅ 訂閱成功！感謝您的支持。</p>
-        </div>
-      </div>
+      <p class="message-desc">有想跟福伯說的話嗎？留下訊息與聯絡方式，福伯會收到通知。</p>
+      <form id="fubowu-message-form" class="fubowu-message-form"
+            action="https://formsubmit.co/fubowu@gmail.com"
+            method="POST">
+        <textarea name="message" class="message-textarea"
+                  placeholder="輸入留言內容…" rows="4" required></textarea>
+        <input type="email" name="email" class="message-email"
+               placeholder="您的 Email（方便福伯回覆）"
+               autocomplete="email" required>
+        <!-- FormSubmit.co 設定 -->
+        <input type="hidden" name="_subject" value="【福伯論壇】新留言">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <!-- 蜜罐防機器人（機器人會填，人看不到） -->
+        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+        <button type="submit" class="message-submit-btn">送出留言</button>
+      </form>
+      <p class="message-success" style="display:none">✅ 留言已送出！感謝您的回饋，福伯會盡快查看。</p>
+      <p class="message-error" style="display:none">❌ 送出失敗，請稍後再試，或直接寄信至 <a href="mailto:fubowu@gmail.com">fubowu@gmail.com</a>。</p>
     </div>
   </div>
 
@@ -117,10 +113,39 @@
 </aside>
 
 <script>
-function ml_webform_success_38721864() {
-  document.querySelector('.ml-subscribe-form-38721864 .row-success').style.display = 'block';
-  document.querySelector('.ml-subscribe-form-38721864 .row-form').style.display = 'none';
-}
+// 留言給福伯：透過 FormSubmit.co AJAX 端點送出，避免整頁跳轉
+(function () {
+  var form = document.getElementById('fubowu-message-form');
+  if (!form) return;
+  var successEl = document.querySelector('.message-success');
+  var errorEl = document.querySelector('.message-error');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (errorEl) errorEl.style.display = 'none';
+    var btn = form.querySelector('.message-submit-btn');
+    var originalText = btn ? btn.textContent : '送出留言';
+    if (btn) { btn.textContent = '送出中…'; btn.disabled = true; }
+    var data = new FormData(form);
+    fetch('https://formsubmit.co/ajax/fubowu@gmail.com', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: data
+    })
+    .then(function (res) { return res.json(); })
+    .then(function (json) {
+      var ok = json && (json.success === 'true' || json.success === true);
+      if (ok) {
+        form.style.display = 'none';
+        if (successEl) successEl.style.display = 'block';
+      } else {
+        if (errorEl) errorEl.style.display = 'block';
+        if (btn) { btn.textContent = originalText; btn.disabled = false; }
+      }
+    })
+    .catch(function () {
+      if (errorEl) errorEl.style.display = 'block';
+      if (btn) { btn.textContent = originalText; btn.disabled = false; }
+    });
+  });
+})();
 </script>
-<script src="https://groot.mailerlite.com/js/w/webforms.min.js?v95037e5bac78f29ed026832ca21a7c7b" type="text/javascript"></script>
-<script>fetch("https://assets.mailerlite.com/jsonp/2206721/forms/182400390224938726/takel")</script>
