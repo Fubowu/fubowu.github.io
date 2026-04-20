@@ -50,7 +50,7 @@
     <div class="sidebar-block-body">
       <p class="message-desc">有想跟福伯說的話嗎？留下訊息與聯絡方式，福伯會收到通知。</p>
       <form id="fubowu-message-form" class="fubowu-message-form"
-            action="https://formsubmit.co/fubowu@gmail.com"
+            action="https://formsubmit.co/6be532e88ab88dce19b6c7fe2c61b9cf"
             method="POST">
         <textarea name="message" class="message-textarea"
                   placeholder="輸入留言內容…" rows="4" required></textarea>
@@ -66,7 +66,7 @@
         <button type="submit" class="message-submit-btn">送出留言</button>
       </form>
       <p class="message-success" style="display:none">✅ 留言已送出！感謝您的回饋，福伯會盡快查看。</p>
-      <p class="message-error" style="display:none">❌ 送出失敗，請稍後再試，或直接寄信至 <a href="mailto:fubowu@gmail.com">fubowu@gmail.com</a>。</p>
+      <p class="message-error" style="display:none">❌ 送出失敗，請稍後再試，或透過 <a href="https://www.facebook.com/fubowuforum/" target="_blank" rel="noopener noreferrer">Facebook 粉專</a> 聯絡福伯。</p>
     </div>
   </div>
 
@@ -126,7 +126,7 @@
     var originalText = btn ? btn.textContent : '送出留言';
     if (btn) { btn.textContent = '送出中…'; btn.disabled = true; }
     var data = new FormData(form);
-    fetch('https://formsubmit.co/ajax/fubowu@gmail.com', {
+    fetch('https://formsubmit.co/ajax/6be532e88ab88dce19b6c7fe2c61b9cf', {
       method: 'POST',
       headers: { 'Accept': 'application/json' },
       body: data
