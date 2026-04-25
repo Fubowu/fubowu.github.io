@@ -17,7 +17,7 @@ layout: default
     <div class="post-images {% if page.images.size == 2 %}multi{% elsif page.images.size >= 3 %}multi-3{% endif %}">
       {% for img in page.images %}
       <img src="{{ site.baseurl }}/images/{{ page.number }}/{{ img }}"
-           alt="{{ page.title }}" loading="lazy">
+           alt="{{ page.title }}{% if page.images.size > 1 %} ({{ forloop.index }}/{{ page.images.size }}){% endif %}" loading="lazy">
       {% endfor %}
     </div>
     {% endif %}
@@ -61,10 +61,32 @@ layout: default
   {% include sidebar.html %}
 </div>
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": {{ page.title | jsonify }},
+  "datePublished": "{{ page.date | date_to_xmlschema }}",
+  "dateModified": "{{ page.date | date_to_xmlschema }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ site.author }}"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": {{ site.title | jsonify }},
+    "url": "{{ site.url }}"
+  },
+  "url": "{{ site.url }}{{ page.url }}",
+  "description": {{ page.excerpt | strip_html | strip_newlines | truncate: 160 | jsonify }}{% if page.number and page.images and page.images.size > 0 %},
+  "image": "{{ site.url }}/images/{{ page.number }}/{{ page.images[0] }}"{% endif %}{% if page.tags and page.tags.size > 0 %},
+  "keywords": {{ page.tags | join: ', ' | jsonify }}{% endif %}
+}
+</script>
+
 <script>
 // 隱藏「原文發表日期」段落
 document.querySelectorAll('.post-content blockquote').forEach(function(bq) {
   if (bq.textContent.includes('原文發表日期')) bq.style.display = 'none';
 });
-
 </script>

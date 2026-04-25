@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://fubowu.life/sitemap.xml

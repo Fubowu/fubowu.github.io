@@ -11,6 +11,7 @@ future: true
 plugins:
   - jekyll-paginate
   - jekyll-feed
+  - jekyll-sitemap
 paginate: 8
 paginate_path: "/page/:num/"
 
