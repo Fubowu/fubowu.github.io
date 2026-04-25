@@ -44,6 +44,22 @@
     </div>
   </div>
 
+  <!-- 訂閱文章通知 -->
+  <div class="sidebar-block">
+    <div class="sidebar-block-title">📩 訂閱文章通知</div>
+    <div class="sidebar-block-body">
+      <p class="message-desc">輸入 Email，新文章發布時即會收到通知。</p>
+      <form id="sidebar-subscribe-form" class="fubowu-message-form">
+        <input type="email" id="sidebar-subscribe-email" class="message-email"
+               placeholder="您的 Email" autocomplete="email" required
+               style="margin-bottom:8px">
+        <button type="submit" class="message-submit-btn">訂閱</button>
+      </form>
+      <p class="message-success" id="sidebar-subscribe-ok" style="display:none">✅ 已送出！請檢查收件匣確認訂閱。</p>
+      <p class="message-error"   id="sidebar-subscribe-err" style="display:none">❌ 送出失敗，請稍後再試。</p>
+    </div>
+  </div>
+
   <!-- 留言給福伯 -->
   <div class="sidebar-block">
     <div class="sidebar-block-title">📬 留言給福伯</div>
@@ -113,6 +129,31 @@
 </aside>
 
 <script>
+// 訂閱文章通知
+(function(){
+  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwtTP_xAJ090foc3OSez0Nt7tc5EW5NBDvIDVvlXk7yLpFUPLvCUUk7Exs7B2shqj6e/exec';
+  var form = document.getElementById('sidebar-subscribe-form');
+  if (!form) return;
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var email = document.getElementById('sidebar-subscribe-email').value.trim();
+    var btn = form.querySelector('button');
+    var ok  = document.getElementById('sidebar-subscribe-ok');
+    var err = document.getElementById('sidebar-subscribe-err');
+    btn.textContent = '處理中…'; btn.disabled = true;
+    var fd = new FormData(); fd.append('email', email);
+    fetch(SCRIPT_URL, { method:'POST', mode:'no-cors', body:fd })
+      .then(function(){
+        form.style.display = 'none';
+        if (ok) ok.style.display = 'block';
+      })
+      .catch(function(){
+        if (err) err.style.display = 'block';
+        btn.textContent = '訂閱'; btn.disabled = false;
+      });
+  });
+})();
+
 // 留言給福伯：透過 FormSubmit.co AJAX 端點送出，避免整頁跳轉
 (function () {
   var form = document.getElementById('fubowu-message-form');
