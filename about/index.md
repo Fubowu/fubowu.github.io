@@ -8,7 +8,7 @@ permalink: /about/
     <header class="post-header">
       <h1 class="post-title">關於福伯論壇</h1>
     </header>
-    <div class="post-content">
+    <div class="post-content" style="white-space:normal">
       <h2>關於本站</h2>
       <p><strong>福伯論壇</strong>（FuBo Forum）是吳福成的個人筆記部落格，自 2012 年起持續以繁體中文記錄對時事、人文與自然的觀察與思考。{{ site.time | date: '%Y' | minus: 2012 }}年來共累積{%- include format_posts.html -%}篇文章、{%- include format_images.html -%}張照片。</p>
 
